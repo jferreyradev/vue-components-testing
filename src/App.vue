@@ -1,85 +1,72 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+const navArr = [
+  { id: 1, title: 'Home', path: '/' },
+  { id: 2, title: 'Panel', path: '/panel' },
+  { id: 3, title: 'About', path: '/about' },
+]
+
+const toggleTheme = () => {
+  document.documentElement.classList.toggle('dark-theme')
+}
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
+    <div class="nav-container">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <span class="nav-title">Navigation</span>
+        <RouterLink v-for="item in navArr" :to="item.path" :key="item.id">
+          {{ item.title }}
+        </RouterLink>
+        <button @click="toggleTheme">Cambiar Tema</button>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <main class="container">
+    <RouterView />
+  </main>
+
+  <footer>
+    <h4>Pie de pagina</h4>
+  </footer>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.nav-container {
+  text-align: center;
+  justify-content: space-between;
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 0.5rem;
+  border-radius: 8px;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.nav-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 1rem;
 }
 
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  text-decoration: none;
 }
 
-nav a:first-of-type {
-  border: 0;
+nav a:hover {
+  text-decoration: underline;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+/* Estilo para el enlace activo */
+.router-link-active {
+  font-weight: bold;
+  /* Cambia el color del enlace activo */
+  text-decoration: underline; /* Opcional: subraya el enlace activo */
 }
 </style>

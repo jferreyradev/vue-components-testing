@@ -1,35 +1,99 @@
-@import './base.css';
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+/* Tema claro (por defecto) */
+:root {
+  --primary-color: #0078bd;
+  --primary-hover: rgba(0, 120, 189, 0.1);
+  --background-color: #f9f9f9;
+  --text-color: #333;
+  --header-footer-bg: rgb(240, 236, 236);
+  --header-footer-text: black;
+}
+
+/* Tema oscuro */
+.dark-theme {
+  --primary-color: #ffc107;
+  --primary-hover: rgba(255, 193, 7, 0.2);
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --header-footer-bg: #1f1f1f;
+  --header-footer-text: #f9f9f9;
+}
+
+/* Estilos globales */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
 #app {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-a,
-.green {
+/* Enlaces */
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  color: var(--primary-color);
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+a:hover {
+  background-color: var(--primary-hover);
+  border-radius: 4px;
+}
+
+/* Cabecera y pie de página */
+header,
+footer {
+  background-color: var(--header-footer-bg);
+  color: var(--header-footer-text);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+footer {
+  margin-top: 2rem;
+}
+
+/* Botones */
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: var(--header-footer-text);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgba(0, 120, 189, 0.8);
+}
+
+/* Responsividad */
+@media (min-width: 768px) {
+  #app {
+    padding: 2rem;
   }
 }
 
 @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    padding: 3rem;
   }
 }
