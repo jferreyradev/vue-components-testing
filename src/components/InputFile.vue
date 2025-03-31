@@ -1,9 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useStore } from '../composables/useStore.js'
 
 const file = ref()
 const csvHeader = ref()
 const csvContent = ref()
+
+const { setGlobalState, setLocalState, addGlobalState, addLocalState, globalState, localState } = useStore()
+
+//const store = useStore()
 
 function removeItemArray(array, index) {
   return array.slice(0, index).concat(array.slice(index + 1))
@@ -18,6 +23,7 @@ function readFile() {
   reader.onload = function () {
     console.log('on reader')
     csvContent.value = reader.result.trim()
+    console.log(csvContent.value)
   }
 
   reader.onerror = (err) => console.log(err)
@@ -29,8 +35,12 @@ function readFile() {
     csvContent.value = csvContent.value.replace(/"/g, '').split('\n')
     csvHeader.value = csvContent.value[0].replace(/"/g, '').split(',')
     csvContent.value = csvContent.value.slice(1)
-    console.log(csvContent.value)
-    console.log(csvHeader.value)
+    //console.log(csvContent.value)
+    //console.log(csvHeader.value)
+    setGlobalState({ csvFile: { header: csvHeader.value, content: csvContent.value }})
+
+    addGlobalState({agregados:{id:1,desc:"Prueba objeto"}})
+
   }
 }
 
@@ -53,14 +63,14 @@ const rows = computed(() => {
   <div>
     <input ref="file" type="file" id="file-selector" accept=".csv" @change="readFile()" />
   </div>
-  <table>
+  <table v-if="globalState.csvFile" >
     <thead>
       <tr>
-        <th v-for="(item, index) in csvHeader" :key="index">{{ item }}</th>
+        <th v-for="(item, index) in globalState.csvFile.header" :key="index">{{ item }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in csvContent" :key="index">
+      <tr v-for="(item, index) in globalState.csvFile.content" :key="index">
         <td v-for="(item, index) in item.split(',')" :key="index">
           {{ item }}
         </td>
@@ -72,6 +82,9 @@ const rows = computed(() => {
       </tr>
     </tfoot>
   </table>
+  <div v-if="globalState.agregados">
+    {{ globalState.agregados }}
+  </div>
 </template>
 
 <style>
